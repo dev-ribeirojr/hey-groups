@@ -2,7 +2,14 @@ import React from 'react'
 import {SignIn, ChatRoom, Messages, Search} from '../pages'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
-const AppStack = createNativeStackNavigator()
+export type AppStackProps = {
+  SignIn: undefined
+  Messages: undefined
+  Search: undefined
+  ChatRoom: undefined
+}
+
+const AppStack = createNativeStackNavigator<AppStackProps>()
 
 export function AppRoutes() {
   return (
