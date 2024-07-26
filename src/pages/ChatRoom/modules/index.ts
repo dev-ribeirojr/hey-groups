@@ -1,0 +1,1 @@
+export {ModalNewRoom} from './ModalNewRoom'
