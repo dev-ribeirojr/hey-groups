@@ -9,7 +9,9 @@ import {stylesModalNewRoom} from './styles'
 import {useModalNewRoom} from './useModalNewRoom'
 
 export function ModalNewRoom({close}: {close: () => void}) {
-  const {roomName, setRoomName} = useModalNewRoom()
+  const {roomName, loading, setRoomName, createNewRoom} = useModalNewRoom({
+    close,
+  })
 
   return (
     <View style={stylesModalNewRoom.container}>
@@ -24,8 +26,13 @@ export function ModalNewRoom({close}: {close: () => void}) {
           onChangeText={setRoomName}
           placeholder="Nome para sua sala?"
         />
-        <TouchableOpacity style={stylesModalNewRoom.buttonCreate}>
-          <Text style={stylesModalNewRoom.buttonText}>Criar Sala</Text>
+        <TouchableOpacity
+          disabled={loading}
+          style={stylesModalNewRoom.buttonCreate}
+          onPress={createNewRoom}>
+          <Text style={stylesModalNewRoom.buttonText}>
+            {loading ? 'Carregando' : 'Criar Sala'}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
