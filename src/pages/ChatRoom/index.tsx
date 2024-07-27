@@ -8,15 +8,23 @@ import {FabButton} from '../../components'
 import {ModalNewRoom} from './modules'
 
 export function ChatRoom() {
-  const {handleSignOut, handleVisibleModal, isVisibleModal} = useChatRoom()
+  const {
+    handleSignOut,
+    handleVisibleModal,
+    handleModalOrRedirect,
+    isVisibleModal,
+    user,
+  } = useChatRoom()
 
   return (
     <SafeAreaView style={stylesChatRoom.container}>
       <View style={stylesChatRoom.headerRoom}>
         <View style={stylesChatRoom.headerRoomLeft}>
-          <TouchableOpacity onPress={handleSignOut}>
-            <MaterialIcons name="arrow-back" size={28} color="#fff" />
-          </TouchableOpacity>
+          {user && (
+            <TouchableOpacity onPress={handleSignOut}>
+              <MaterialIcons name="arrow-back" size={28} color="#fff" />
+            </TouchableOpacity>
+          )}
           <Text style={stylesChatRoom.title}>Grupos</Text>
         </View>
 
@@ -24,7 +32,7 @@ export function ChatRoom() {
           <MaterialIcons name="search" size={28} color="#FFF" />
         </TouchableOpacity>
       </View>
-      <FabButton onPress={() => handleVisibleModal('open')} />
+      <FabButton onPress={handleModalOrRedirect} />
 
       <Modal visible={isVisibleModal} animationType="fade" transparent={true}>
         <ModalNewRoom close={() => handleVisibleModal('close')} />
