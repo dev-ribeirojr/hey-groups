@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native'
 export const stylesFabButton = StyleSheet.create({
   container: {
     backgroundColor: '#2e54d4',
+    zIndex: 999,
     height: 60,
     width: 60,
     borderRadius: 30,

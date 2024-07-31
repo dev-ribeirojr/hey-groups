@@ -1,11 +1,17 @@
-import {Modal, Text, TouchableOpacity, View} from 'react-native'
+import {
+  ActivityIndicator,
+  Modal,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {stylesChatRoom} from './styles'
 import {useChatRoom} from './useChatRoom'
 import {FabButton} from '../../components'
-import {ModalNewRoom} from './modules'
+import {ModalNewRoom, Threads} from './modules'
 
 export function ChatRoom() {
   const {
@@ -13,8 +19,14 @@ export function ChatRoom() {
     handleVisibleModal,
     handleModalOrRedirect,
     isVisibleModal,
+    loadingThreads,
+    threads,
     user,
   } = useChatRoom()
+
+  if (loadingThreads) {
+    return <ActivityIndicator size="large" color="#555" />
+  }
 
   return (
     <SafeAreaView style={stylesChatRoom.container}>
@@ -33,7 +45,7 @@ export function ChatRoom() {
         </TouchableOpacity>
       </View>
       <FabButton onPress={handleModalOrRedirect} />
-
+      {threads && <Threads threads={threads} />}
       <Modal visible={isVisibleModal} animationType="fade" transparent={true}>
         <ModalNewRoom close={() => handleVisibleModal('close')} />
       </Modal>

@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native'
 export const stylesChatRoom = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   headerRoom: {
     flexDirection: 'row',

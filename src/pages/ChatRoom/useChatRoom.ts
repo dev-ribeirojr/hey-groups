@@ -1,4 +1,5 @@
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth'
+import firestore, {Timestamp} from '@react-native-firebase/firestore'
 import {useIsFocused, useNavigation} from '@react-navigation/native'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack'
 import {AppStackProps} from '../../routes/app.routes'
@@ -9,16 +10,58 @@ type ChatRoomNavigationProp = NativeStackNavigationProp<
   'ChatRoom'
 >
 
+export interface ThreadsProps {
+  _id: string
+  name: string
+  owner: string
+  lastMessage: {
+    text: string
+    createdAt: Timestamp | Date
+  }
+}
+
 export function useChatRoom() {
   const navigation = useNavigation<ChatRoomNavigationProp>()
   const isFocused = useIsFocused()
 
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null)
+  const [threads, setThreads] = useState<ThreadsProps[] | null>(null)
+  const [loadingThreads, setLoadingThreads] = useState(true)
   const [isVisibleModal, setIsVisibleModal] = useState(false)
 
   useEffect(() => {
     loadUser()
+    getChats()
+
+    return () => {
+      getChats()
+    }
   }, [isFocused])
+
+  async function getChats() {
+    try {
+      const response = await firestore()
+        .collection('MESSAGE_TREADS')
+        .orderBy('lastMessage.createdAt', 'desc')
+        .limit(10)
+        .get()
+
+      const threadsDoc = response.docs.map((docSnap) => {
+        return {
+          _id: docSnap.id,
+          name: '',
+          lastMessage: {text: ''},
+          ...docSnap.data(),
+        } as ThreadsProps
+      })
+
+      setThreads(threadsDoc)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoadingThreads(false)
+    }
+  }
 
   function loadUser() {
     if (!auth().currentUser) {
@@ -30,6 +73,7 @@ export function useChatRoom() {
   }
 
   function handleModalOrRedirect() {
+    console.log('CLICOU')
     if (!user) {
       return navigation.navigate('SignIn')
     }
@@ -58,6 +102,8 @@ export function useChatRoom() {
     handleSignOut,
     handleVisibleModal,
     handleModalOrRedirect,
+    threads,
+    loadingThreads,
     isVisibleModal,
     user,
   }
