@@ -73,7 +73,6 @@ export function useChatRoom() {
   }
 
   function handleModalOrRedirect() {
-    console.log('CLICOU')
     if (!user) {
       return navigation.navigate('SignIn')
     }
