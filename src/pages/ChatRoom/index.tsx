@@ -19,6 +19,7 @@ export function ChatRoom() {
     handleVisibleModal,
     handleModalOrRedirect,
     handleUpdateScreen,
+    deleteRoom,
     isVisibleModal,
     loadingThreads,
     threads,
@@ -46,7 +47,7 @@ export function ChatRoom() {
         </TouchableOpacity>
       </View>
       <FabButton onPress={handleModalOrRedirect} />
-      {threads && <Threads threads={threads} />}
+      {threads && <Threads threads={threads} deleteRoom={deleteRoom} />}
       <Modal visible={isVisibleModal} animationType="fade" transparent={true}>
         <ModalNewRoom
           close={() => handleVisibleModal('close')}

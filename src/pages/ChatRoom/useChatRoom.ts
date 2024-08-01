@@ -4,6 +4,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack'
 import {AppStackProps} from '../../routes/app.routes'
 import {useEffect, useState} from 'react'
+import {Alert} from 'react-native'
 
 type ChatRoomNavigationProp = NativeStackNavigationProp<
   AppStackProps,
@@ -106,12 +107,36 @@ export function useChatRoom() {
       setIsVisibleModal(false)
     }
   }
+  function deleteRoom(ownerId: string, id: string) {
+    if (user && user.uid !== ownerId) {
+      return
+    }
+    Alert.alert('Atenção!', 'Você tem certeza que deseja deletar essa sala?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Confirmar',
+        onPress: () => handleDeleteRoom(id),
+      },
+    ])
+  }
+
+  async function handleDeleteRoom(id: string) {
+    try {
+      await firestore().collection('MESSAGE_TREADS').doc(id).delete()
+      setUpdateScreen(!updateScreen)
+    } catch (error) {}
+  }
 
   return {
     handleSignOut,
     handleVisibleModal,
     handleModalOrRedirect,
     handleUpdateScreen,
+    deleteRoom,
     threads,
     loadingThreads,
     isVisibleModal,
