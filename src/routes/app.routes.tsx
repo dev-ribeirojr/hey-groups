@@ -1,10 +1,11 @@
 import React from 'react'
 import {SignIn, ChatRoom, Messages, Search} from '../pages'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {ThreadsProps} from '../pages/ChatRoom/useChatRoom'
 
 export type AppStackProps = {
   SignIn: undefined
-  Messages: undefined
+  Messages: {thread: ThreadsProps}
   Search: undefined
   ChatRoom: undefined
 }
@@ -33,9 +34,9 @@ export function AppRoutes() {
       <AppStack.Screen
         name="Messages"
         component={Messages}
-        options={{
-          title: 'Faça Login',
-        }}
+        options={({route}) => ({
+          title: route.params.thread.name || 'Nome do Grupo',
+        })}
       />
 
       <AppStack.Screen

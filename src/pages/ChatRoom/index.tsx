@@ -47,7 +47,13 @@ export function ChatRoom() {
         </TouchableOpacity>
       </View>
       <FabButton onPress={handleModalOrRedirect} />
-      {threads && <Threads threads={threads} deleteRoom={deleteRoom} />}
+      {threads && (
+        <Threads
+          threads={threads}
+          deleteRoom={deleteRoom}
+          isAuthenticated={!!user}
+        />
+      )}
       <Modal visible={isVisibleModal} animationType="fade" transparent={true}>
         <ModalNewRoom
           close={() => handleVisibleModal('close')}

@@ -6,7 +6,7 @@ import {AppStackProps} from '../../routes/app.routes'
 import {useEffect, useState} from 'react'
 import {Alert} from 'react-native'
 
-type ChatRoomNavigationProp = NativeStackNavigationProp<
+export type ChatRoomNavigationProp = NativeStackNavigationProp<
   AppStackProps,
   'ChatRoom'
 >

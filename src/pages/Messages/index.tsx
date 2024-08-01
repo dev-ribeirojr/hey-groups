@@ -1,9 +1,27 @@
-import {Text, View} from 'react-native'
+import {FlatList, SafeAreaView, Text} from 'react-native'
+import {AppStackProps} from '../../routes/app.routes'
+import {RouteProp} from '@react-navigation/native'
+import {useMessage} from './useMessages'
+import {DisplayMessages} from './modules'
 
-export function Messages() {
+type MessagesRouteProp = RouteProp<AppStackProps, 'Messages'>
+
+export type MessagesComponentProps = {
+  route: MessagesRouteProp
+}
+
+export function Messages({route}: MessagesComponentProps) {
+  const {messages} = useMessage({route})
+
   return (
-    <View>
-      <Text>Texto de Messages</Text>
-    </View>
+    <SafeAreaView>
+      <Text>Teste</Text>
+      <FlatList
+        style={{width: '100%'}}
+        data={messages}
+        keyExtractor={(item) => item._id}
+        renderItem={({item}) => <DisplayMessages data={item} />}
+      />
+    </SafeAreaView>
   )
 }
