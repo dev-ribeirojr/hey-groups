@@ -18,6 +18,7 @@ export function ChatRoom() {
     handleSignOut,
     handleVisibleModal,
     handleModalOrRedirect,
+    handleUpdateScreen,
     isVisibleModal,
     loadingThreads,
     threads,
@@ -47,7 +48,10 @@ export function ChatRoom() {
       <FabButton onPress={handleModalOrRedirect} />
       {threads && <Threads threads={threads} />}
       <Modal visible={isVisibleModal} animationType="fade" transparent={true}>
-        <ModalNewRoom close={() => handleVisibleModal('close')} />
+        <ModalNewRoom
+          close={() => handleVisibleModal('close')}
+          updateScreen={handleUpdateScreen}
+        />
       </Modal>
     </SafeAreaView>
   )

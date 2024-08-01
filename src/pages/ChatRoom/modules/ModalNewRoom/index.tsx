@@ -8,9 +8,15 @@ import {
 import {stylesModalNewRoom} from './styles'
 import {useModalNewRoom} from './useModalNewRoom'
 
-export function ModalNewRoom({close}: {close: () => void}) {
+export interface ModalNewRoomProps {
+  close: () => void
+  updateScreen: () => void
+}
+
+export function ModalNewRoom({close, updateScreen}: ModalNewRoomProps) {
   const {roomName, loading, setRoomName, createNewRoom} = useModalNewRoom({
     close,
+    updateScreen,
   })
 
   return (

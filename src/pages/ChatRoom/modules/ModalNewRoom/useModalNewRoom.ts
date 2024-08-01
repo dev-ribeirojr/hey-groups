@@ -1,8 +1,9 @@
 import {useState} from 'react'
 import firestore from '@react-native-firebase/firestore'
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth'
+import {ModalNewRoomProps} from '.'
 
-export function useModalNewRoom({close}: {close: () => void}) {
+export function useModalNewRoom({close, updateScreen}: ModalNewRoomProps) {
   const [roomName, setRoomName] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -32,7 +33,7 @@ export function useModalNewRoom({close}: {close: () => void}) {
         createdAt: firestore.FieldValue.serverTimestamp(),
         system: true,
       })
-
+      updateScreen()
       close()
     } catch (error) {
       console.log(error)

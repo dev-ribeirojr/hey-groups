@@ -28,13 +28,19 @@ export function useChatRoom() {
   const [threads, setThreads] = useState<ThreadsProps[] | null>(null)
   const [loadingThreads, setLoadingThreads] = useState(true)
   const [isVisibleModal, setIsVisibleModal] = useState(false)
+  const [updateScreen, setUpdateScreen] = useState(false)
+
+  useEffect(() => {
+    getChats()
+    return () => {
+      getChats()
+    }
+  }, [isFocused, updateScreen])
 
   useEffect(() => {
     loadUser()
-    getChats()
-
     return () => {
-      getChats()
+      loadUser()
     }
   }, [isFocused])
 
@@ -61,6 +67,10 @@ export function useChatRoom() {
     } finally {
       setLoadingThreads(false)
     }
+  }
+
+  function handleUpdateScreen() {
+    setUpdateScreen(!updateScreen)
   }
 
   function loadUser() {
@@ -101,6 +111,7 @@ export function useChatRoom() {
     handleSignOut,
     handleVisibleModal,
     handleModalOrRedirect,
+    handleUpdateScreen,
     threads,
     loadingThreads,
     isVisibleModal,
